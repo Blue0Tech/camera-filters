@@ -2,7 +2,7 @@ import { React, Component, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, PLatform, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
-import { StatusBar } from 'expo-status-bar';
+import Filter1 from '../components/Filter1';
 
 const upperContainer = StyleSheet.create({
     marginTop: 50,
@@ -58,10 +58,19 @@ export default class Main extends Component {
                         type={Camera.Constants.Type.front}
                         faceDetectorSettings={{
                             mode: FaceDetector.FaceDetectorMode.fast,
-                            detectLandmarks: FaceDetector.FaceDetectorLandmarks.all
+                            detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
+                            runClassifications: FaceDetector.FaceDetectorClassifications.all
                         }}
                         onFacesDetected={this.onFacesDetected}
                     />
+                    {
+                        this.state.faces.map(face=>{
+                            <Filter1
+                                // key={`face-id-${face.faceID}`} commented out as this does not exist
+                                face={face}
+                            />
+                        })
+                    }
                 </View>
                 <View style={lowerContainer}>
                     <Text>A face-detection project.</Text>
