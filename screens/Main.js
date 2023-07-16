@@ -65,10 +65,12 @@ export default class Main extends Component {
                     />
                     {
                         this.state.faces.map(face=>{
-                            <Filter1
-                                // key={`face-id-${face.faceID}`} commented out as this does not exist
-                                face={face}
-                            />
+                            return (
+                                <Filter1
+                                    // key={`face-id-${face.faceID}`} commented out as this does not exist
+                                    face={face}
+                                />
+                            )
                         })
                     }
                 </View>
