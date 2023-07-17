@@ -2,7 +2,30 @@ import { React, Component, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, PLatform, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
-import Filter1 from '../components/Filter1';
+import Filter from '../components/Filter';
+
+let data = {
+    'crown': [
+        {id: "filter1", src: require('../assets/filters/crown-pic1.png')},
+        {id: "filter2", src: require('../assets/filters/crown-pic2.png')},
+        {id: "filter3", src: require('../assets/filters/crown-pic3.png')},
+    ],
+    'flower': [
+        {id: "filter4", src: require('../assets/filters/flower-pic1.png')},
+        {id: "filter5", src: require('../assets/filters/flower-pic2.png')},
+        {id: "filter6", src: require('../assets/filters/flower-pic3.png')},
+    ],
+    'hair': [
+        {id: "filter7", src: require('../assets/filters/hair-pic1.png')},
+        {id: "filter8", src: require('../assets/filters/hair-pic2.png')},
+        {id: "filter9", src: require('../assets/filters/hair-pic3.png')},
+    ],
+    'other': [
+        {id: "filter10", src: require('../assets/filters/other-pic1.png')},
+        {id: "filter11", src: require('../assets/filters/other-pic2.png')},
+        {id: "filter12", src: require('../assets/filters/other-pic3.png')}
+    ]
+};
 
 const upperContainer = StyleSheet.create({
     marginTop: 50,
@@ -23,7 +46,9 @@ export default class Main extends Component {
         super(props);
         this.state = {
             hasCameraPermission: null,
-            faces: []
+            faces: [],
+            currentFilter: 'filter1',
+            selected: 'crown'
         };
         this.onFacesDetected = this.onFacesDetected.bind(this);
     };
@@ -66,13 +91,146 @@ export default class Main extends Component {
                     {
                         this.state.faces.map(face=>{
                             return (
-                                <Filter1
-                                    // key={`face-id-${face.faceID}`} commented out as this does not exist
+                                <Filter
+                                    // key={`face-id-${face.faceID}`} commented out as faceID does not exist
                                     face={face}
+                                    filter={this.state.currentFilter}
                                 />
                             )
                         })
                     }
+                </View>
+                <View style={{
+                    padding: 10,
+                    backgroundColor: 'lightblue'
+                }}>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        margin: 5
+                    }}>
+                        <TouchableOpacity style={
+                            this.state.selected == 'crown'?{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'lightgreen',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }:{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'white',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }
+                        } onPress={()=>{
+                            this.setState({
+                                selected: 'crown'
+                            });
+                        }}><Text>Crown</Text></TouchableOpacity>
+                        <TouchableOpacity style={
+                            this.state.selected == 'flower'?{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'lightgreen',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }:{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'white',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }
+                        } onPress={()=>{
+                            this.setState({
+                                selected: 'flower'
+                            });
+                        }}><Text>Flower</Text></TouchableOpacity>
+                        <TouchableOpacity style={
+                            this.state.selected == 'hair'?{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'lightgreen',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }:{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'white',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }
+                        } onPress={()=>{
+                            this.setState({
+                                selected: 'hair'
+                            });
+                        }}><Text>Hair</Text></TouchableOpacity>
+                        <TouchableOpacity style={
+                            this.state.selected == 'other'?{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'lightgreen',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }:{
+                                flex: 0.2,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                width: '100%',
+                                backgroundColor: 'white',
+                                padding: 1,
+                                margin: 1,
+                                alignItems: 'center'
+                            }
+                        } onPress={()=>{
+                            this.setState({
+                                selected: 'other'
+                            });
+                        }}><Text>Other</Text></TouchableOpacity>
+                    </View>
+                    <ScrollView style={{flexDirection: 'row'}} horizontal showsHorizontalScrollIndicator={false}>
+                        {
+                            data[this.state.selected].map(filterData=>{
+                                return(
+                                    <TouchableOpacity style={{
+                                        height: 80,
+                                        width: 100,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        borderRadius: 20,
+                                        margin: 10
+                                    }} onPress={()=>{
+                                        this.setState({currentFilter: filterData.id});
+                                    }}>
+                                        <Image style={{width: 80, height: 60, resizeMode: 'contain'}} source={filterData.src}></Image>
+                                    </TouchableOpacity>
+                                );
+                            })
+                        }
+                    </ScrollView>
                 </View>
                 <View style={lowerContainer}>
                     <Text>A face-detection project.</Text>
